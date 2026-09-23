@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f14" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Teddy Training" />
+  <title>Teddy Training</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#121821; --panel2:#18212c; --text:#f7f9fb; --muted:#9aa8b8;
+      --line:#243140; --accent:#6ee7b7; --accent2:#60a5fa; --warn:#fbbf24; --danger:#fb7185;
+      --ok:#34d399; --shadow:0 12px 30px rgba(0,0,0,.28); --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif}
+    body{min-height:100vh;padding-bottom:92px}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .wrap{max-width:760px;margin:0 auto;padding:env(safe-area-inset-top) 16px 24px}
+    header{padding:20px 0 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+    .brand h1{font-size:28px;line-height:1.05;margin:0 0 6px}.brand p{margin:0;color:var(--muted);font-size:14px}
+    .chip{padding:8px 10px;border:1px solid var(--line);background:var(--panel);border-radius:999px;color:var(--muted);font-size:12px;white-space:nowrap}
+    .hero{background:linear-gradient(145deg,#15202b,#0f161f);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:var(--shadow);margin-bottom:16px}
+    .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:700}
+    .hero h2{font-size:26px;margin:7px 0 8px}.hero p{margin:0 0 16px;color:var(--muted);line-height:1.45}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{border:0;border-radius:14px;padding:12px 14px;background:var(--accent);color:#052015;font-weight:800}
+    .btn.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+    .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+    .btn.danger{background:rgba(251,113,133,.12);color:#fecdd3;border:1px solid rgba(251,113,133,.35)}
+    .section{margin:18px 0}.section h3{margin:0 0 10px;font-size:18px}.section-sub{color:var(--muted);font-size:13px;margin:-4px 0 10px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px;margin-bottom:10px}
+    .week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+    .day{padding:10px 6px;border-radius:14px;border:1px solid var(--line);background:var(--panel);text-align:center;min-width:0}
+    .day .d{font-size:11px;color:var(--muted);margin-bottom:6px}.day .t{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .day.active{border-color:var(--accent);box-shadow:0 0 0 1px rgba(110,231,183,.25) inset}.day.rest .t{color:var(--muted)}
+    .metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+    .metric{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px}
+    .metric .n{font-size:22px;font-weight:800}.metric .l{font-size:11px;color:var(--muted);margin-top:3px}
+    .exercise{background:var(--panel);border:1px solid var(--line);border-radius:18px;margin-bottom:12px;overflow:hidden}
+    .exercise-head{padding:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .exercise h4{margin:0 0 4px;font-size:16px}.meta{color:var(--muted);font-size:12px;line-height:1.45}
+    .target{font-size:12px;border-radius:10px;padding:7px 9px;background:rgba(96,165,250,.11);color:#bfdbfe;border:1px solid rgba(96,165,250,.25);max-width:46%;text-align:right}
+    .sets{padding:0 12px 12px}
+    .setrow{display:grid;grid-template-columns:34px 1fr 1fr .85fr;gap:8px;align-items:center;margin-top:8px}
+    .setnum{width:30px;height:30px;border-radius:999px;background:var(--panel2);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px}
+    input,textarea,select{width:100%;background:#0d131b;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px;outline:none}
+    input:focus,textarea:focus,select:focus{border-color:var(--accent2)}
+    .label{display:block;font-size:10px;color:var(--muted);margin:0 0 4px 2px}.field{}
+    .note{font-size:12px;color:var(--muted);padding:0 14px 14px;line-height:1.45}
+    .badge{display:inline-flex;align-items:center;gap:5px;padding:6px 8px;border-radius:999px;font-size:11px;font-weight:800;border:1px solid}
+    .badge.up{color:#a7f3d0;background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.25)}
+    .badge.hold{color:#bfdbfe;background:rgba(96,165,250,.1);border-color:rgba(96,165,250,.25)}
+    .badge.down{color:#fecdd3;background:rgba(251,113,133,.1);border-color:rgba(251,113,133,.25)}
+    .taskrow{display:flex;gap:10px;align-items:center}
+    .taskrow input[type=checkbox]{width:22px;height:22px}
+    .taskrow .grow{flex:1}
+    .footer-actions{position:sticky;bottom:72px;background:linear-gradient(180deg,rgba(11,15,20,0),rgba(11,15,20,.96) 28%);padding:22px 0 4px;display:flex;gap:10px}
+    nav{position:fixed;left:0;right:0;bottom:0;background:rgba(11,15,20,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:20}
+    .navin{width:min(760px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+    .navbtn{border:0;background:transparent;color:var(--muted);padding:8px 4px;border-radius:12px;font-size:11px}.navbtn.active{background:var(--panel);color:var(--text)}
+    .screen{display:none}.screen.active{display:block}
+    .history-item{display:flex;justify-content:space-between;gap:12px;align-items:center}.history-item strong{display:block}.history-item small{color:var(--muted)}
+    .empty{color:var(--muted);font-size:13px;text-align:center;padding:24px 12px;border:1px dashed var(--line);border-radius:16px}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;z-index:50}.modal.show{display:flex}
+    .sheet{width:100%;max-width:760px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;padding:18px 16px calc(22px + env(safe-area-inset-bottom))}
+    .sheet h3{margin:0 0 8px}.sheet p,.sheet li{color:var(--muted);line-height:1.5;font-size:14px}
+    .small{font-size:12px;color:var(--muted)} .hr{height:1px;background:var(--line);margin:14px 0}
+    .progressbar{height:8px;background:#0d131b;border:1px solid var(--line);border-radius:999px;overflow:hidden}.progressbar span{display:block;height:100%;background:var(--accent)}
+    @media (max-width:520px){
+      .week{grid-template-columns:repeat(4,1fr)} .metric-grid{grid-template-columns:1fr 1fr}.metric-grid .metric:last-child{grid-column:1/-1}
+      .setrow{grid-template-columns:30px 1fr 1fr .8fr}.target{max-width:52%}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><h1>Teddy Training</h1><p>Progressive strength + athletic conditioning</p></div>
+      <button class="chip" id="installBtn">Add to Home Screen</button>
+    </header>
+
+    <main>
+      <section id="home" class="screen active">
+        <div class="hero">
+          <div class="eyebrow" id="todayEyebrow">TODAY</div>
+          <h2 id="todayTitle">Loading…</h2>
+          <p id="todayDesc"></p>
+          <div class="btnrow">
+            <button class="btn" id="startToday">Open workout</button>
+            <button class="btn secondary" id="openSchedule">View week</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>This week</h3>
+          <div class="week" id="weekGrid"></div>
+        </div>
+
+        <div class="section">
+          <h3>Training snapshot</h3>
+          <div class="metric-grid">
+            <div class="metric"><div class="n" id="workoutsCount">0</div><div class="l">Workouts logged</div></div>
+            <div class="metric"><div class="n" id="setsCount">0</div><div class="l">Working sets logged</div></div>
+            <div class="metric"><div class="n" id="streakCount">0</div><div class="l">7-day sessions</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Latest progression calls</h3>
+          <div id="progressCalls"></div>
+        </div>
+      </section>
+
+      <section id="workout" class="screen">
+        <div class="section">
+          <div class="eyebrow" id="workoutDayLabel"></div>
+          <h2 id="workoutTitle" style="margin:6px 0 4px"></h2>
+          <div class="section-sub" id="workoutSubtitle"></div>
+          <div class="card">
+            <strong>Warm-up</strong>
+            <div class="small" id="warmupText" style="margin-top:6px"></div>
+          </div>
+          <div id="exerciseList"></div>
+          <div id="extrasList"></div>
+          <div class="card">
+            <label class="label">Workout notes</label>
+            <textarea id="workoutNotes" rows="3" placeholder="Energy, soreness, form notes, anything unusual…"></textarea>
+          </div>
+          <div class="footer-actions">
+            <button class="btn" style="flex:1" id="completeWorkout">Complete workout</button>
+            <button class="btn secondary" id="copyWorkout">Copy for ChatGPT</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="progress" class="screen">
+        <div class="section">
+          <h2 style="margin:0 0 4px">Progress</h2>
+          <div class="section-sub">Your workout history and progression decisions.</div>
+          <div class="metric-grid" style="margin-top:12px">
+            <div class="metric"><div class="n" id="pWorkouts">0</div><div class="l">Total workouts</div></div>
+            <div class="metric"><div class="n" id="pSets">0</div><div class="l">Total sets</div></div>
+            <div class="metric"><div class="n" id="pVolume">0</div><div class="l">Logged lb-reps</div></div>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Recent sessions</h3>
+          <div id="historyList"></div>
+        </div>
+      </section>
+
+      <section id="settings" class="screen">
+        <div class="section">
+          <h2 style="margin:0 0 4px">Settings & backup</h2>
+          <div class="section-sub">Everything is stored locally in this browser.</div>
+        </div>
+        <div class="card">
+          <strong>Progression system</strong>
+          <p class="small">Top of rep range across all working sets with good form → increase next time. Otherwise hold the load and add reps. If multiple sets fall below the rep floor, consider reducing load.</p>
+          <p class="small">Compounds: usually 2 RIR. Isolation work: 1–2 RIR. Failure is optional, not the default.</p>
+        </div>
+        <div class="card">
+          <strong>Backup your data</strong>
+          <p class="small">Export a JSON backup before clearing browser data or moving phones.</p>
+          <div class="btnrow">
+            <button class="btn secondary" id="exportBtn">Export backup</button>
+            <label class="btn secondary" style="display:inline-block">Import backup<input type="file" id="importFile" accept=".json,application/json" hidden></label>
+          </div>
+        </div>
+        <div class="card">
+          <strong>Danger zone</strong>
+          <p class="small">This permanently deletes locally saved workout history from this browser.</p>
+          <button class="btn danger" id="resetBtn">Reset all workout data</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav>
+    <div class="navin">
+      <button class="navbtn active" data-screen="home">Home</button>
+      <button class="navbtn" data-screen="workout">Workout</button>
+      <button class="navbtn" data-screen="progress">Progress</button>
+      <button class="navbtn" data-screen="settings">Settings</button>
+    </div>
+  </nav>
+
+  <div class="modal" id="installModal">
+    <div class="sheet">
+      <h3>Add Teddy Training to your Home Screen</h3>
+      <p><strong>iPhone / Safari:</strong> tap the Share button, choose <em>Add to Home Screen</em>, then tap Add.</p>
+      <p><strong>Android / Chrome:</strong> open the browser menu and choose <em>Add to Home screen</em> or <em>Install app</em>.</p>
+      <button class="btn" id="closeInstall">Got it</button>
+    </div>
+  </div>
+
+<script>
+const PROGRAM = {
+  0:{key:"push", title:"Push — Chest Emphasis", desc:"Chest strength and hypertrophy with shoulders + triceps.", warmup:"5 min easy cardio, shoulder circles/band work, then 2–3 progressively heavier warm-up sets for incline DB bench.", exercises:[
+    ex("Incline DB Bench",3,8,12,45,5,"db","2–3 min","Control the eccentric; shoulder blades set."),
+    ex("Flat DB Bench",3,6,10,55,5,"db","2–3 min","Stable feet, controlled touch, strong press."),
+    ex("Cable/Machine Chest Fly",3,10,15,null,5,"machine","75–90 sec","Stretch under control; squeeze chest."),
+    ex("DB Lateral Raise",3,12,15,15,2.5,"db","60–90 sec","Lead with elbows; avoid swinging."),
+    ex("Cable Triceps Pressdown",3,8,12,95,5,"cable","90 sec","Keep elbows pinned."),
+    ex("Overhead Cable Triceps Extension",2,10,15,null,5,"cable","60–90 sec","Long stretch; ribs down.")
+  ], extras:[
+    extra("core","Cable Crunch","3×8–12","Progress weight after 3×12."),
+    extra("core","Pallof Press","2×10–12/side","Pause fully extended."),
+    extra("cardio","Optional Incline Walk","10–15 min","Easy conversational pace.")
+  ]},
+  1:{key:"legsA", title:"Legs A — Quad Emphasis", desc:"Quad-focused lower body strength with balanced unilateral work.", warmup:"5–7 min easy bike or treadmill, bodyweight squats, hip/ankle mobility, then ramp-up sets on V-squat.", exercises:[
+    ex("MTS V-Squat",3,6,10,170,20,"machine","2–3 min","Controlled depth; drive evenly through feet."),
+    ex("Leg Press — Feet Low",3,8,12,270,20,"machine","2–3 min","Do not let hips curl off pad."),
+    ex("Bulgarian Split Squat",3,8,10,20,5,"db","90–120 sec","Stable torso; full controlled depth."),
+    ex("Leg Extension",2,10,15,null,10,"machine","75 sec","Smooth reps; hard squeeze at top."),
+    ex("Adductor Machine",2,10,15,140,10,"machine","75 sec","Controlled full range."),
+    ex("Seated Calf Raise",3,10,15,185,10,"machine","60–90 sec","Pause stretched and contracted.")
+  ], extras:[]},
+  2:{key:"pull", title:"Pull — Back + Biceps", desc:"Vertical + horizontal pulling with rear delts and biceps.", warmup:"5 min easy cardio, scapular pulldowns/arm circles, then 2 ramp-up sets for pulldowns and rows.", exercises:[
+    ex("Lat Pulldown",3,8,12,130,5,"cable","2 min","Drive elbows down; avoid leaning back excessively."),
+    ex("Seated Low Row — Elbows Tucked",3,8,12,130,10,"cable","2 min","Pause with elbows by your sides."),
+    ex("High/Wide Seated Row",3,10,12,100,10,"cable","90 sec","Elbows near shoulder height; controlled return."),
+    ex("Face Pull",2,12,15,75,5,"cable","75 sec","Pull toward forehead; rotate thumbs back."),
+    ex("Reverse DB Fly",2,10,15,20,2.5,"db","75 sec","Move through rear delts, not momentum."),
+    ex("Incline DB Curl",3,8,12,20,5,"db","90 sec","Keep shoulders back; full extension."),
+    ex("Cable Hammer Curl",2,10,12,95,5,"cable","75 sec","Neutral grip; elbows quiet.")
+  ], extras:[
+    extra("core","Hanging Knee/Leg Raise","3×8–12","Progress toward straighter legs."),
+    extra("core","Suitcase Carry","3×30–45 sec/side","Increase load once posture stays perfect.")
+  ]},
+  3:{key:"recovery", title:"Active Recovery", desc:"Zone 2 conditioning + mobility. No lifting.", warmup:"Start easy for 3–5 minutes and settle into a conversational pace.", exercises:[], extras:[
+    extra("cardio","Zone 2 Cardio","25–35 min","Incline treadmill, bike, elliptical, or outdoor walk."),
+    extra("mobility","Mobility","5–10 min","Hips, ankles, thoracic spine, shoulders.")
+  ]},
+  4:{key:"legsB", title:"Legs B — Posterior Chain", desc:"Hamstrings, glutes, hinge strength, and lower-body balance.", warmup:"5–7 min easy cardio, dynamic hamstring/hip mobility, then multiple light RDL ramp-up sets.", exercises:[
+    ex("Romanian Deadlift",3,6,10,135,10,"barbell","2–3 min","2–3 sec eccentric; hinge until hamstrings are loaded."),
+    ex("Bulgarian Split Squat",3,8,10,20,5,"db","2 min","Slight forward torso is fine; control the bottom."),
+    ex("Seated/Lying Hamstring Curl",3,8,12,null,5,"machine","90 sec","Full curl; slow return."),
+    ex("Cable Pull-Through",3,10,15,null,10,"cable","90 sec","Hinge, squeeze glutes, avoid spinal extension."),
+    ex("Leg Press — Feet High",2,10,12,null,20,"machine","2 min","Bias hips/hamstrings; smooth depth."),
+    ex("Calf Raise",3,10,15,null,10,"machine","75 sec","Full stretch + pause.")
+  ], extras:[
+    extra("core","Ab Wheel / Stability-Ball Rollout","3×6–10","Add reps, then harder range."),
+    extra("core","Cable Woodchop","2×10–12/side","Rotate through torso under control.")
+  ]},
+  5:{key:"upper", title:"Upper — Shoulders + Arms", desc:"Shoulder and arm emphasis with extra upper-body volume.", warmup:"5 min easy cardio, shoulder prep, then 2 ramp-up sets for DB shoulder press.", exercises:[
+    ex("DB Shoulder Press",3,8,12,40,5,"db","2 min","Ribs down; smooth press."),
+    ex("Chest-Supported Row",3,8,12,null,5,"db","2 min","No torso momentum; squeeze shoulder blades."),
+    ex("Incline DB Bench",2,10,12,40,5,"db","2 min","Controlled eccentric; leave ~2 RIR."),
+    ex("DB/Cable Lateral Raise",3,12,15,15,2.5,"db","60 sec","Strict reps."),
+    ex("Rear-Delt Fly",2,12,15,null,2.5,"db","60 sec","Keep traps relaxed."),
+    ex("EZ/DB Curl",3,8,12,null,5,"db","75 sec","Full ROM."),
+    ex("Triceps Pressdown",3,8,12,null,5,"cable","75 sec","Lock upper arms in place.")
+  ], extras:[
+    extra("cardio","StairMaster","10–15 min","Moderately hard; do not turn it into an all-out leg session.")
+  ]},
+  6:{key:"rest", title:"Full Rest", desc:"No structured training. Easy walking is optional.", warmup:"Recovery day.", exercises:[], extras:[]}
+};
+function ex(name,sets,min,max,start,inc,type,rest,cue){return {name,sets,min,max,start,inc,type,rest,cue}}
+function extra(type,name,prescription,note){return {type,name,prescription,note}}
+
+const storeKey="teddyTraining_v1";
+let state=loadState();
+let activeDay=new Date().getDay();
+
+function loadState(){
+  try{
+    const v=JSON.parse(localStorage.getItem(storeKey));
+    return v && v.history ? v : {history:[]};
+  }catch(e){ return {history:[]}; }
+}
+function saveState(){ localStorage.setItem(storeKey,JSON.stringify(state)); }
+function fmtDate(d){
+  const x=new Date(d); return x.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+}
+function dayName(i){return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][i]}
+function latestExercise(name){
+  for(let i=state.history.length-1;i>=0;i--){
+    const e=(state.history[i].exercises||[]).find(x=>x.name===name);
+    if(e) return e;
+  }
+  return null;
+}
+function progression(exercise){
+  const last=latestExercise(exercise.name);
+  if(!last || !last.sets || !last.sets.length) return {status:"hold",label: exercise.start ? `Start ${exercise.start} lb` : "Establish Week 1 load", target:exercise.start};
+  const valid=last.sets.filter(s=>Number(s.reps)>0);
+  if(valid.length < exercise.sets) return {status:"hold",label:"Repeat load; complete all sets",target:Number(valid[0]?.weight)||exercise.start};
+  const weights=valid.map(s=>Number(s.weight)||0);
+  const base=weights[0];
+  const sameLoad=weights.every(w=>w===base);
+  const allTop=valid.every(s=>Number(s.reps)>=exercise.max);
+  const below=valid.filter(s=>Number(s.reps)<exercise.min).length;
+  if(sameLoad && allTop){
+    return {status:"up",label:`Increase to ${clean(base+exercise.inc)} lb`,target:base+exercise.inc};
+  }
+  if(below>=2){
+    const reduced=Math.max(exercise.inc,base-exercise.inc);
+    return {status:"down",label:`Consider ${clean(reduced)} lb`,target:reduced};
+  }
+  const repTarget=Math.min(exercise.max, Math.max(...valid.map(s=>Number(s.reps)))+1);
+  return {status:"hold",label:`Hold ${clean(base)} lb • chase ${repTarget}s`,target:base};
+}
+function clean(n){return Number.isInteger(n)?String(n):String(Number(n.toFixed(1)))}
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.screen===id));
+  if(id==="progress") renderProgress();
+  if(id==="home") renderHome();
+}
+document.querySelectorAll(".navbtn").forEach(b=>b.addEventListener("click",()=>showScreen(b.dataset.screen)));
+
+function renderHome(){
+  const today=new Date().getDay(), p=PROGRAM[today];
+  document.getElementById("todayTitle").textContent=p.title;
+  document.getElementById("todayDesc").textContent=p.desc;
+  document.getElementById("todayEyebrow").textContent=`${dayName(today)} • Today`;
+
+  const week=document.getElementById("weekGrid"); week.innerHTML="";
+  for(let i=0;i<7;i++){
+    const p=PROGRAM[i], b=document.createElement("button");
+    b.className="day"+(i===today?" active":"")+((i===3||i===6)?" rest":"");
+    b.innerHTML=`<div class="d">${dayName(i).slice(0,3)}</div><div class="t">${p.key==="recovery"?"Recovery":p.key==="rest"?"Rest":p.title.split(" — ")[0]}</div>`;
+    b.onclick=()=>openWorkout(i);
+    week.appendChild(b);
+  }
+  const sets=state.history.reduce((a,w)=>a+(w.exercises||[]).reduce((x,e)=>x+(e.sets||[]).filter(s=>Number(s.reps)>0).length,0),0);
+  const now=Date.now(), seven=state.history.filter(w=>now-new Date(w.date).getTime()<7*86400000).length;
+  document.getElementById("workoutsCount").textContent=state.history.length;
+  document.getElementById("setsCount").textContent=sets;
+  document.getElementById("streakCount").textContent=seven;
+
+  const calls=document.getElementById("progressCalls"); calls.innerHTML="";
+  const all=Object.values(PROGRAM).flatMap(p=>p.exercises);
+  const uniq=[...new Map(all.map(x=>[x.name,x])).values()];
+  const recent=uniq.map(e=>({e,p:progression(e),last:latestExercise(e.name)})).filter(x=>x.last).slice(0,4);
+  if(!recent.length){calls.innerHTML='<div class="empty">Log your first workout and progression recommendations will appear here.</div>'}
+  recent.forEach(x=>{
+    const d=document.createElement("div"); d.className="card history-item";
+    d.innerHTML=`<div><strong>${x.e.name}</strong><small>Last: ${x.last.sets.map(s=>`${clean(Number(s.weight)||0)}×${s.reps}`).join(", ")}</small></div><span class="badge ${x.p.status}">${x.p.label}</span>`;
+    calls.appendChild(d);
+  });
+}
+function openWorkout(day){
+  activeDay=day; const p=PROGRAM[day];
+  document.getElementById("workoutDayLabel").textContent=dayName(day);
+  document.getElementById("workoutTitle").textContent=p.title;
+  document.getElementById("workoutSubtitle").textContent=p.desc;
+  document.getElementById("warmupText").textContent=p.warmup;
+  document.getElementById("workoutNotes").value="";
+  const list=document.getElementById("exerciseList"); list.innerHTML="";
+  p.exercises.forEach((e,idx)=>list.appendChild(exerciseCard(e,idx)));
+  renderExtras(p.extras);
+  showScreen("workout");
+}
+function exerciseCard(e,idx){
+  const card=document.createElement("div"); card.className="exercise"; card.dataset.name=e.name;
+  const prog=progression(e), last=latestExercise(e.name);
+  card.innerHTML=`<div class="exercise-head">
+    <div><h4>${e.name}</h4><div class="meta">${e.sets}×${e.min}–${e.max} • Rest ${e.rest}${last?`<br>Last: ${last.sets.map(s=>`${clean(Number(s.weight)||0)}×${s.reps}`).join(", ")}`:""}</div></div>
+    <div class="target"><span class="badge ${prog.status}" style="margin-bottom:5px">${prog.status==="up"?"↑":prog.status==="down"?"↓":"→"} ${prog.label}</span><br>${e.cue}</div>
+  </div><div class="sets"></div>`;
+  const sets=card.querySelector(".sets");
+  for(let s=0;s<e.sets;s++){
+    const row=document.createElement("div"); row.className="setrow";
+    const suggested=prog.target ?? e.start ?? "";
+    row.innerHTML=`<div class="setnum">${s+1}</div>
+      <div class="field"><label class="label">lb</label><input inputmode="decimal" class="weight" value="${suggested}"></div>
+      <div class="field"><label class="label">reps</label><input inputmode="numeric" class="reps" placeholder="${e.min}-${e.max}"></div>
+      <div class="field"><label class="label">RIR</label><input inputmode="numeric" class="rir" placeholder="2"></div>`;
+    sets.appendChild(row);
+  }
+  const note=document.createElement("div"); note.className="note"; note.textContent="Progress rule: reach the top of the rep range on every working set with clean form before adding weight.";
+  card.appendChild(note);
+  return card;
+}
+function renderExtras(extras){
+  const list=document.getElementById("extrasList"); list.innerHTML="";
+  if(!extras.length) return;
+  const h=document.createElement("div"); h.className="section"; h.innerHTML="<h3>Core / cardio</h3>"; list.appendChild(h);
+  extras.forEach((x,i)=>{
+    const c=document.createElement("div"); c.className="card taskrow"; c.dataset.extra=x.name;
+    c.innerHTML=`<input type="checkbox" class="extra-check"><div class="grow"><strong>${x.name}</strong><div class="small">${x.prescription} • ${x.note}</div></div><input class="extra-result" style="max-width:110px" placeholder="result">`;
+    list.appendChild(c);
+  });
+}
+function collectWorkout(){
+  const p=PROGRAM[activeDay], exercises=[];
+  document.querySelectorAll("#exerciseList .exercise").forEach(card=>{
+    const sets=[...card.querySelectorAll(".setrow")].map(r=>({
+      weight:Number(r.querySelector(".weight").value)||0,
+      reps:Number(r.querySelector(".reps").value)||0,
+      rir:r.querySelector(".rir").value===""?null:Number(r.querySelector(".rir").value)
+    }));
+    exercises.push({name:card.dataset.name,sets});
+  });
+  const extras=[...document.querySelectorAll("#extrasList .taskrow")].map(r=>({
+    name:r.dataset.extra,done:r.querySelector(".extra-check").checked,result:r.querySelector(".extra-result").value.trim()
+  }));
+  return {date:new Date().toISOString(),day:activeDay,title:p.title,notes:document.getElementById("workoutNotes").value.trim(),exercises,extras};
+}
+function workoutText(w){
+  let out=`${dayName(w.day)} — ${w.title}\n`;
+  w.exercises.forEach(e=>{
+    const sets=e.sets.filter(s=>s.reps>0).map(s=>`${clean(s.weight)}×${s.reps}${s.rir!==null?` (RIR ${s.rir})`:""}`).join(", ");
+    if(sets) out+=`${e.name}: ${sets}\n`;
+  });
+  const extras=w.extras.filter(x=>x.done||x.result);
+  if(extras.length){
+    out+="\nCore/Cardio:\n";
+    extras.forEach(x=>out+=`- ${x.name}${x.result?`: ${x.result}`:""}${x.done?" ✓":""}\n`);
+  }
+  if(w.notes) out+=`\nNotes: ${w.notes}\n`;
+  out+="\nPlease compare this with my prior workout and tell me exactly what weight/reps to target next time.";
+  return out;
+}
+async function copyText(txt){
+  try{ await navigator.clipboard.writeText(txt); alert("Copied. Paste this into ChatGPT."); }
+  catch(e){ prompt("Copy this text:",txt); }
+}
+document.getElementById("completeWorkout").onclick=()=>{
+  const w=collectWorkout();
+  const any=w.exercises.some(e=>e.sets.some(s=>s.reps>0)) || w.extras.some(x=>x.done||x.result);
+  if(!any && PROGRAM[activeDay].key!=="rest"){ alert("Log at least one set or activity before completing."); return; }
+  state.history.push(w); saveState();
+  alert("Workout saved. Your next-session targets will update automatically.");
+  renderHome(); showScreen("home");
+};
+document.getElementById("copyWorkout").onclick=()=>copyText(workoutText(collectWorkout()));
+document.getElementById("startToday").onclick=()=>openWorkout(new Date().getDay());
+document.getElementById("openSchedule").onclick=()=>document.getElementById("weekGrid").scrollIntoView({behavior:"smooth"});
+
+function renderProgress(){
+  const sets=state.history.reduce((a,w)=>a+(w.exercises||[]).reduce((x,e)=>x+(e.sets||[]).filter(s=>s.reps>0).length,0),0);
+  const volume=state.history.reduce((a,w)=>a+(w.exercises||[]).reduce((x,e)=>x+(e.sets||[]).reduce((q,s)=>q+(Number(s.weight)||0)*(Number(s.reps)||0),0),0),0);
+  document.getElementById("pWorkouts").textContent=state.history.length;
+  document.getElementById("pSets").textContent=sets;
+  document.getElementById("pVolume").textContent=volume>999999?(volume/1e6).toFixed(1)+"M":volume>999?(volume/1e3).toFixed(1)+"k":Math.round(volume);
+  const list=document.getElementById("historyList"); list.innerHTML="";
+  if(!state.history.length){list.innerHTML='<div class="empty">No completed sessions yet.</div>';return;}
+  [...state.history].reverse().slice(0,20).forEach(w=>{
+    const c=document.createElement("div"); c.className="card";
+    const working=w.exercises.reduce((n,e)=>n+e.sets.filter(s=>s.reps>0).length,0);
+    c.innerHTML=`<div class="history-item"><div><strong>${w.title}</strong><small>${fmtDate(w.date)} • ${working} sets</small></div><button class="btn ghost">Copy</button></div>`;
+    c.querySelector("button").onclick=()=>copyText(workoutText(w));
+    list.appendChild(c);
+  });
+}
+
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
+document.getElementById("installBtn").onclick=async()=>{
+  if(deferredPrompt){deferredPrompt.prompt(); deferredPrompt=null;}
+  else document.getElementById("installModal").classList.add("show");
+};
+document.getElementById("closeInstall").onclick=()=>document.getElementById("installModal").classList.remove("show");
+document.getElementById("installModal").onclick=e=>{if(e.target.id==="installModal")e.currentTarget.classList.remove("show")};
+
+document.getElementById("exportBtn").onclick=()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="teddy-training-backup.json"; a.click(); URL.revokeObjectURL(a.href);
+};
+document.getElementById("importFile").onchange=async(e)=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    const data=JSON.parse(await f.text());
+    if(!data.history || !Array.isArray(data.history)) throw new Error("Invalid backup");
+    state=data; saveState(); renderHome(); renderProgress(); alert("Backup imported.");
+  }catch(err){alert("Could not import that backup.");}
+};
+document.getElementById("resetBtn").onclick=()=>{
+  if(confirm("Delete all locally saved workout history? This cannot be undone unless you exported a backup.")){
+    state={history:[]}; saveState(); renderHome(); renderProgress(); alert("Workout data reset.");
+  }
+};
+
+renderHome();
+</script>
+</body>
+</html>
