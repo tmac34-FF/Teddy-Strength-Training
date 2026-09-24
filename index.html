@@ -314,7 +314,9 @@ function mergeHistoricalWorkouts(history){
 }
 
 const storeKey="teddyTraining_v1";
-let state=loadState();\nstate.history=mergeHistoricalWorkouts(state.history);\nsaveState();
+let state=loadState();
+state.history=mergeHistoricalWorkouts(state.history);
+saveState();
 let activeDay=new Date().getDay();
 
 function loadState(){
