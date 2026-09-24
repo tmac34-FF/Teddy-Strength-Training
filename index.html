@@ -263,8 +263,58 @@ const PROGRAM = {
 function ex(name,sets,min,max,start,inc,type,rest,cue){return {name,sets,min,max,start,inc,type,rest,cue}}
 function extra(type,name,prescription,note){return {type,name,prescription,note}}
 
+const HISTORICAL_WORKOUTS = [
+  {date:"2026-09-02T15:30:00-04:00",day:2,title:"Pull — Back + Biceps",notes:"Imported from ChatGPT workout log.",exercises:[
+    {name:"Seated Low Row — Elbows Tucked",sets:[{weight:100,reps:12,rir:null},{weight:110,reps:12,rir:null},{weight:120,reps:12,rir:null}]},
+    {name:"Face Pull",sets:[{weight:80,reps:12,rir:null},{weight:80,reps:12,rir:null},{weight:80,reps:12,rir:null}]},
+    {name:"Cable Crunch",sets:[{weight:160,reps:8,rir:null},{weight:160,reps:8,rir:null},{weight:160,reps:8,rir:null}]},
+    {name:"Cable Hammer Curl",sets:[{weight:95,reps:12,rir:null},{weight:95,reps:12,rir:null},{weight:95,reps:12,rir:null}]},
+    {name:"Reverse DB Fly",sets:[{weight:20,reps:8,rir:null},{weight:20,reps:8,rir:null},{weight:20,reps:8,rir:null}]},
+    {name:"Incline DB Curl",sets:[{weight:20,reps:8,rir:null},{weight:20,reps:8,rir:null}]}
+  ],extras:[]},
+  {date:"2026-09-08T17:00:00-04:00",day:1,title:"Chest + Back",notes:"Imported from ChatGPT workout log.",exercises:[
+    {name:"Seated Low Row — Elbows Tucked",sets:[{weight:130,reps:10,rir:null},{weight:150,reps:10,rir:null},{weight:160,reps:8,rir:null},{weight:140,reps:10,rir:null}]},
+    {name:"Incline DB Bench",sets:[{weight:40,reps:12,rir:null},{weight:40,reps:12,rir:null},{weight:40,reps:12,rir:null}]},
+    {name:"Lat Pulldown",sets:[{weight:115,reps:12,rir:null},{weight:120,reps:12,rir:null},{weight:120,reps:12,rir:null}]},
+    {name:"Face Pull",sets:[{weight:60,reps:20,rir:null},{weight:70,reps:20,rir:null}]},
+    {name:"Flat DB Bench",sets:[{weight:55,reps:10,rir:null},{weight:60,reps:8,rir:null}]}
+  ],extras:[{name:"Abs",done:true,result:"Bicycles 50; suitcase crunches 25; Russian twists 25; static hold 10 sec"}]},
+  {date:"2026-09-10T10:00:00-04:00",day:4,title:"Leg Day",notes:"Imported from ChatGPT workout log.",exercises:[
+    {name:"Barbell Squat",sets:[{weight:135,reps:8,rir:null},{weight:185,reps:8,rir:null},{weight:185,reps:8,rir:null}]},
+    {name:"Barbell Deadlift",sets:[{weight:185,reps:8,rir:null},{weight:185,reps:6,rir:null},{weight:185,reps:4,rir:null},{weight:185,reps:4,rir:null}]},
+    {name:"Bulgarian Split Squat",sets:[{weight:20,reps:8,rir:null},{weight:20,reps:8,rir:null},{weight:20,reps:8,rir:null}]},
+    {name:"Seated/Lying Hamstring Curl",sets:[{weight:40,reps:8,rir:null},{weight:40,reps:8,rir:null}]},
+    {name:"Seated Calf Raise",sets:[{weight:185,reps:15,rir:null},{weight:185,reps:15,rir:null}]}
+  ],extras:[{name:"Abs",done:true,result:"Bicycles 30; suitcase crunches 20; Russian twists 40; tabletop iso 45 sec"},{name:"StairMaster",done:true,result:"10 min"}]},
+  {date:"2026-09-16T15:30:00-04:00",day:3,title:"Push — Shoulder Start",notes:"Imported from ChatGPT. Exercise names for some logged numbered movements were not preserved, so only clearly identifiable work is used for progression.",exercises:[
+    {name:"DB Shoulder Press",sets:[{weight:40,reps:10,rir:null},{weight:40,reps:10,rir:null},{weight:40,reps:10,rir:null}]}
+  ],extras:[{name:"Incline Walk",done:true,result:"20 min • speed 3 • incline 12"}]},
+  {date:"2026-09-21T16:16:00-04:00",day:1,title:"Legs A — Quad Emphasis",notes:"Leg extension finisher skipped because quads were already heavily fatigued. Hamstring curls skipped for Thursday hamstring focus.",exercises:[
+    {name:"MTS V-Squat",sets:[{weight:150,reps:10,rir:null},{weight:170,reps:10,rir:null},{weight:170,reps:10,rir:null},{weight:210,reps:6,rir:null}]},
+    {name:"Adductor Machine",sets:[{weight:140,reps:10,rir:null},{weight:140,reps:10,rir:null},{weight:140,reps:10,rir:null}]},
+    {name:"Leg Press — Feet Low",sets:[{weight:270,reps:10,rir:null},{weight:270,reps:10,rir:null}]},
+    {name:"Calf Raise",sets:[{weight:270,reps:12,rir:null},{weight:270,reps:12,rir:null},{weight:270,reps:12,rir:null}]},
+    {name:"Sissy Squat",sets:[{weight:0,reps:10,rir:null},{weight:0,reps:10,rir:null}]}
+  ],extras:[]},
+  {date:"2026-09-23T16:14:00-04:00",day:2,title:"Pull — Back + Biceps",notes:"Imported from ChatGPT workout log.",exercises:[
+    {name:"Seated Low Row — Elbows Tucked",sets:[{weight:130,reps:10,rir:null},{weight:130,reps:10,rir:null},{weight:130,reps:10,rir:null},{weight:130,reps:10,rir:null}]},
+    {name:"High/Wide Seated Row",sets:[{weight:100,reps:10,rir:null},{weight:100,reps:10,rir:null},{weight:100,reps:10,rir:null},{weight:100,reps:10,rir:null}]},
+    {name:"Lat Pulldown",sets:[{weight:130,reps:8,rir:null},{weight:130,reps:8,rir:null},{weight:130,reps:8,rir:null}]}
+  ],extras:[]}
+];
+
+function mergeHistoricalWorkouts(history){
+  const existing=new Set((history||[]).map(w=>String(w.date).slice(0,10)+"|"+w.title));
+  const merged=[...(history||[])];
+  HISTORICAL_WORKOUTS.forEach(w=>{
+    const key=String(w.date).slice(0,10)+"|"+w.title;
+    if(!existing.has(key)){ merged.push(w); existing.add(key); }
+  });
+  return merged.sort((a,b)=>new Date(a.date)-new Date(b.date));
+}
+
 const storeKey="teddyTraining_v1";
-let state=loadState();
+let state=loadState();\nstate.history=mergeHistoricalWorkouts(state.history);\nsaveState();
 let activeDay=new Date().getDay();
 
 function loadState(){
